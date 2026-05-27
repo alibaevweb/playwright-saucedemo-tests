@@ -1,40 +1,19 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../page/LoginPage';
-import { ProductsPage } from '../page/ProductsPage';
+import { test, expect } from '../helper/fixtures';
 import { ADD_BUTTON } from '../helper/const/product';
-import { CartPage } from '../page/CartPage';
-import { CompletePage } from '../page/CompletePage';
-import { OverviewPage } from '../page/OverviewPage';
-import { CheckoutPage } from '../page/CheckoutPage';
-
-let loginPage: LoginPage;
-let productsPage: ProductsPage;
-let cartPage: CartPage;
-let completePage: CompletePage;
-let overviewPage: OverviewPage;
-let checkoutPage: CheckoutPage;
 
 test.beforeEach(async ({ page }) => {
-  loginPage = new LoginPage(page);
-  productsPage = new ProductsPage(page);
-  cartPage = new CartPage(page);
-  completePage = new CompletePage(page);
-  overviewPage = new OverviewPage(page);
-  checkoutPage = new CheckoutPage(page);
-
-  await loginPage.open();
-  await loginPage.authorize('standard_user', 'secret_sauce');
+  await page.goto('https://www.saucedemo.com/inventory.html');
 });
 
 test.describe('Проверка удаления товара из корзины', () => {
-  test('Удаление одного товара из корзины', async () => {
+  test('Удаление одного товара из корзины', async ({ productsPage, cartPage }) => {
     await productsPage.addToCart();
     await productsPage.openCart();
     await cartPage.removeFromCart();
     await expect(cartPage.shoppingCartIcon).toHaveCount(0);
   });
 
-  test('Удаление товаров из корзины по id', async () => {
+  test('Удаление товаров из корзины по id', async ({ productsPage, cartPage }) => {
     for (const productId of ADD_BUTTON) {
       await productsPage.addToCartById(productId);
     }
@@ -45,7 +24,7 @@ test.describe('Проверка удаления товара из корзин�
   });
 });
 
-test('Добавление 2 товара в корзину', async () => {
+test('Добавление 2 товара в корзину', async ({ productsPage, cartPage }) => {
   await productsPage.addToCartById('add-to-cart-sauce-labs-backpack');
   await productsPage.addToCartById('add-to-cart-sauce-labs-bolt-t-shirt');
   await productsPage.openCart();
@@ -53,7 +32,13 @@ test('Добавление 2 товара в корзину', async () => {
   await expect(cartPage.shoppingCartIcon).toHaveText('2');
 });
 
-test('Оформление заказа', async () => {
+test('Оформление заказа', async ({
+  productsPage,
+  cartPage,
+  checkoutPage,
+  overviewPage,
+  completePage,
+}) => {
   await productsPage.addToCartById('add-to-cart-sauce-labs-backpack');
   await productsPage.addToCartById('add-to-cart-sauce-labs-bolt-t-shirt');
   await productsPage.openCart();
