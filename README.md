@@ -33,11 +33,13 @@
   - `OverviewPage` — страница подтверждения заказа
   - `CompletePage` — страница успешного оформления заказа
 - `tests/` — файлы с тестами:
-  - `login.spec.ts` — тесты авторизации
+  - `auth.setup.ts` — setup авторизации
+  - `login.spec.ts` — тесты авторизации c без сессии
   - `product.spec.ts` — тесты страницы продуктов
   - `cart.spec.ts` — тесты корзины и оформления заказа
 - `helper/const/` — константы (список товаров, id кнопок добавления и удаления)
-- `playwright.config.ts` — конфигурация Playwright
+- `helper/fixtures.ts` — фикстуры
+- `playwright.config.ts` — конфигурация Playwright и storage state для авторизации
 
 ## Запуск
 
