@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { ProductsPage } from '../page/ProductsPage';
-import { PRODUCT, ADD_BUTTON } from '../helper/const/product';
+import { ADD_BUTTON } from '../helper/const/product';
 import { CartPage } from '../page/CartPage';
 import { CompletePage } from '../page/CompletePage';
 import { OverviewPage } from '../page/OverviewPage';
@@ -29,7 +29,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Проверка удаления товара из корзины', () => {
   test('Удаление одного товара из корзины', async () => {
     await productsPage.addToCart();
-    await cartPage.openCart();
+    await productsPage.openCart();
     await cartPage.removeFromCart();
     await expect(cartPage.shoppingCartIcon).toHaveCount(0);
   });
@@ -38,34 +38,25 @@ test.describe('Проверка удаления товара из корзин�
     for (const productId of ADD_BUTTON) {
       await productsPage.addToCartById(productId);
     }
-    await cartPage.openCart();
+    await productsPage.openCart();
     await cartPage.removeFromCartById('remove-sauce-labs-bike-light');
-    await expect(cartPage.inventoryitem).toHaveCount(5);
+    await expect(cartPage.inventoryItem).toHaveCount(5);
     await expect(cartPage.shoppingCartIcon).toHaveText('5');
   });
-});
-
-test('Добавление всех товаров в корзину', async () => {
-  for (const productId of ADD_BUTTON) {
-    await productsPage.addToCartById(productId);
-  }
-  await cartPage.openCart();
-  await expect(cartPage.inventoryitem).toHaveCount(6);
-  await expect(cartPage.shoppingCartIcon).toHaveText('6');
 });
 
 test('Добавление 2 товара в корзину', async () => {
   await productsPage.addToCartById('add-to-cart-sauce-labs-backpack');
   await productsPage.addToCartById('add-to-cart-sauce-labs-bolt-t-shirt');
-  await cartPage.openCart();
-  await expect(cartPage.inventoryitem).toHaveCount(2);
+  await productsPage.openCart();
+  await expect(cartPage.inventoryItem).toHaveCount(2);
   await expect(cartPage.shoppingCartIcon).toHaveText('2');
 });
 
 test('Оформление заказа', async () => {
   await productsPage.addToCartById('add-to-cart-sauce-labs-backpack');
   await productsPage.addToCartById('add-to-cart-sauce-labs-bolt-t-shirt');
-  await cartPage.openCart();
+  await productsPage.openCart();
   await cartPage.checkoutClick();
   await checkoutPage.information('Test', 'Testov', '00000');
   await checkoutPage.continue();

@@ -27,7 +27,7 @@ test.describe('Проверка элементов на странице про�
   });
 
   test('Проверка наличия иконки корзины на странице после успешной авторизации', async () => {
-    await expect(cartPage.shoppingCartLink).toBeVisible();
+    await expect(productsPage.shoppingCartLink).toBeVisible();
   });
 
   test('Проверка наличия всех товаров на странице', async () => {
