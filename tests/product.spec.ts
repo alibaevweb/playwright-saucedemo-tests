@@ -53,12 +53,10 @@ test.describe('Проверка добавления товара в корзи�
   });
 });
 
-test('Удаление товара из главной страницы', () => {
-  test('Добавление товаров из списка и удаление одного из них, проверка количества товаров в корзине, должно быть 5', async () => {
-    for (const testId of ADD_BUTTON) {
-      await productsPage.addToCartById(testId);
-    }
-    await cartPage.removeFromCartById('remove-sauce-labs-bike-light');
-    await expect(productsPage.shoppingCartIcon).toHaveText('5');
-  });
+test('Добавление товаров из списка и удаление одного из них, проверка количества товаров в корзине, должно быть 5', async () => {
+  for (const testId of ADD_BUTTON) {
+    await productsPage.addToCartById(testId);
+  }
+  await cartPage.removeFromCartById('remove-sauce-labs-bike-light');
+  await expect(productsPage.shoppingCartIcon).toHaveText('5');
 });
