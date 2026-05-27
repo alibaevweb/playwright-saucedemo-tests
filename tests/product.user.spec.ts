@@ -61,3 +61,12 @@ test('Добавление товаров из списка и удаление 
   await cartPage.removeFromCartById('remove-sauce-labs-bike-light');
   await expect(productsPage.shoppingCartIcon).toHaveText('5');
 });
+
+test('У user картинки товаров разные', async ({ productsPage }) => {
+  const images = productsPage.page.locator('img.inventory_item_img');
+
+  const firstSrc = await images.nth(0).getAttribute('src');
+  const secondSrc = await images.nth(1).getAttribute('src');
+
+  expect(firstSrc).not.toBe(secondSrc);
+});

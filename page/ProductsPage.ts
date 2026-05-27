@@ -8,6 +8,7 @@ export class ProductsPage {
   readonly shoppingCartIcon: Locator;
   readonly removeButton: Locator;
   readonly itemNameLocator: Locator;
+  readonly itemImgLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +18,7 @@ export class ProductsPage {
     this.shoppingCartIcon = page.locator('[data-test="shopping-cart-badge"]');
     this.removeButton = page.getByRole('button', { name: 'Remove' });
     this.itemNameLocator = page.locator('[data-test="inventory-item-name"]');
+    this.itemImgLink = page.locator('img.inventory_item_img');
   }
 
   async addToCart() {

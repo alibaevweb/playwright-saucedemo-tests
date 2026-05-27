@@ -39,12 +39,27 @@ export default defineConfig({
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
+
+    // Тесты под standart user
     {
-      name: 'chromium',
+      name: 'chromium-standart',
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
+
+      testMatch: /.*\.user\.spec\.ts/,
+      dependencies: ['setup'],
+    },
+
+    // Тесты под problem user
+    {
+      name: 'chromium-problem',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/problem.json',
+      },
+      testMatch: /.*\.problem\.spec\.ts/,
       dependencies: ['setup'],
     },
 
