@@ -4,17 +4,24 @@ import { ProductsPage } from '../page/ProductsPage';
 import { PRODUCT, ADD_BUTTON } from '../helper/const/product';
 import { CartPage } from '../page/CartPage';
 import { CompletePage } from '../page/CompletePage';
+import { OverviewPage } from '../page/OverviewPage';
+import { CheckoutPage } from '../page/CheckoutPage';
 
 let loginPage: LoginPage;
 let productsPage: ProductsPage;
 let cartPage: CartPage;
 let completePage: CompletePage;
+let overviewPage: OverviewPage;
+let checkoutPage: CheckoutPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
   productsPage = new ProductsPage(page);
   cartPage = new CartPage(page);
   completePage = new CompletePage(page);
+  overviewPage = new OverviewPage(page);
+  checkoutPage = new CheckoutPage(page);
+
   await loginPage.open();
   await loginPage.authorize('standard_user', 'secret_sauce');
 });
@@ -60,9 +67,9 @@ test('Оформление заказа', async () => {
   await productsPage.addToCartById('add-to-cart-sauce-labs-bolt-t-shirt');
   await cartPage.openCart();
   await cartPage.checkoutClick();
-  await cartPage.information('Test', 'Testov', '00000');
-  await cartPage.continue();
-  await cartPage.finish();
+  await checkoutPage.information('Test', 'Testov', '00000');
+  await checkoutPage.continue();
+  await overviewPage.finish();
 
   await expect(completePage.completeHeader).toHaveText('Thank you for your order!');
 });
